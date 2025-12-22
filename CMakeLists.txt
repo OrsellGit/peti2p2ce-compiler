@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 4.0)
-project(TS_PETI CXX)
+project(TS_PETI C CXX)
 
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
@@ -10,7 +11,7 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message(STATUS "Compiling for Linux!")
     message(STATUS "Adding Linux compile flags.")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -O0 -g")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Ofast")
 elseif (MINGW)
     # Tell MingW that to include defines for Windows and to support Windows functions
@@ -18,9 +19,10 @@ elseif (MINGW)
     message(STATUS "Adding Windows MingW Clang compile flags and definitions.")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -static -Wall -O0 -g -Wunicode -mwindows")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -static -Wall -Ofast -Wunicode -mwindows")
-    add_compile_definitions(_WIN32=1 _WINDOWS=1 NOTIFY_RENDER_OUTSIDE_MAIN_WINDOW=1)
+    add_compile_definitions(_WIN32=1 _WINDOWS=1)
 endif ()
 
 include_directories(.)
 
-add_executable(TS_PETI main.cpp)
+add_executable(TS_PETI_VBSP vbsp_main.cpp)
+add_executable(TS_PETI_VRAD vrad_main.cpp)

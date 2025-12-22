@@ -57,3 +57,6 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 cmake-build-*
+
+# NixOS
+.direnv
