@@ -14,6 +14,26 @@
 #include <sys/wait.h>
 #endif
 
+/**
+ * @brief Portal 2 will run this version of VBSP instead of its own.
+ *        Here various actions will occur before the Portal 2: Community Edition VBSP executable is called.
+ * @param argc Number of arguments passed to the program.
+ * @param argv Arguments passed to the program.
+ *             Portal 2 passes in to vbsp.exe:
+ *             (0) VBSP location, normally located at "Portal 2/bin/vbsp.exe"
+ *             (1) "-entity_limit" The flag to override the entity limit is its own argument in the array.
+ *             (2) "1750" The set entity limit for PeTI.
+ *             (3) "-game" Flag to set the game folder to use with VBSP, where the gameinfo.txt is location.
+ *             (4) Game folder location, should default to "Portal 2/portal2".
+ *             (5) Map VMF location, should default to "Portal 2/sdk_content/maps/preview.vmf"
+ *
+ *             -entity_limit
+ *             1750
+ *             -game
+ *             /home/.../.local/share/steam/steamapps/common/portal 2/portal2/
+ *             /home/.../.local/share/steam/steamapps/common/portal 2/sdk_content\maps/preview.vmf
+ * @return Return code of the program. Portal 2 will recognize any return code that is non-zero to be a error code.
+ */
 int main( const int argc, char** argv )
 {
     for (int i = 0; i < argc; i++ )
