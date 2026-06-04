@@ -1,5 +1,5 @@
 {
-  description = "Nix flake for the game FishFearMe";
+  description = "Nix flake for the PeTI to P2:CE compilers.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

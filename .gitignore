@@ -60,3 +60,6 @@ cmake-build-*
 
 # NixOS
 .direnv
+
+# BEEMod
+bee2
