@@ -40,18 +40,17 @@ I tried to make the process easy as possible, but there is some action on your p
 
 1. In your Portal 2's bin directory (`Portal 2/bin`), you will need to rename the current BEEMod compilers to `vbsp_bee.exe` and `vrad_bee.exe`.
    For VVIS, you will just need to rename the original Portal 2 VVIS to something else since BEEMod doesn't have a replacement for it. This tool's version will be run directly by the game.
-   If you are not using BEEMod for this, you just need to rename all the original Portal 2's compilers to something else.
-2. This program is not able to find your P2:CE installation for you.  You will need to symlink your P2:CE's VBSP, just the VBSP, to the `Portal 2/bin` directory and rename the symlink to `vbsp_p2ce.exe`.
-   If you do not know how to symlink on Windows, you will need just need to open a Command Prompt (not Powershell) window with Administrator to use this command:
+   If you are not using BEEMod for this, you just need to rename all the original Portal 2's compilers to something else like `vbsp_original.exe`.
+2. This program is not able to find your P2:CE installation for you. You will need to symlink your P2:CE's VBSP, just the VBSP, to the `Portal 2/bin` directory and rename the symlink to `vbsp_p2ce.exe`.
+   If you do not know how to symlink on Windows, you will need just need to open a Command Prompt (not Powershell) window with Administrator and use this command:
    `mklink vbsp_p2ce.exe "PATH TO P2:CE VBSP EXE"`
-   This will make a connection between P2:CE and Portal 2 via the symlink. The program does not run VBSP using the symlink and simply uses it to pull paths from there using it.
+   This will make a connection between P2:CE and Portal 2 via the symlink. The program does not run VBSP using the symlink and simply uses it to gather file paths using it.
    If you don't want to mess with terminal commands, you can also use Link Shell Extension to "Pick Link Source" the P2:CE VBSP compiler and then "Drop As... Symbolic Link" into the Portal 2 bin directory.
    <https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html#download>
 3. Once you have renamed the compilers and symlinked P2:CE's VBSP, go ahead and download the latest compilers from the [Releases](https://github.com/TimeStall-Collective/peti2p2ce-compiler/releases/latest) page on the GitHub repository.
 4. Copy the downloaded compilers into Portal 2's bin directory. If you get any dialog that says to replace existing files, close the prompt and make sure you renamed everything as mentioned in step 1.
-5. If using BEEMod: You will need to copy over or symlink the `bee2` folder that is copied from the BEEMod application to P2's base folder into P2:CE's main folder so assets get loaded by the game when map is ran.
-   Once that is done, go into P2:CE's `gameinfo.txt` under the `p2ce` folder and add `Game |gameinfo_path|../bee2` as the last item in the `SearchPaths` section.
-6. That should be it! Open the game with Steam or BEEMod's application, open PeTI, and then compile a map. It should compile, copy over to P2:CE, and run it in P2:CE.
+5. Go into P2:CE's `gameinfo.txt` under the `p2ce` folder and add `Game    |gameinfo_path|../bee2` as the last item in the `SearchPaths` section.
+6. That should be it! Open Portal 2 with Steam or BEEMod's application, open PeTI, and then compile a map. It should compile, copy over to P2:CE, and run it in P2:CE.
 
 > [CAUTION!]
 > When PeTI finishes compiling after the VRAD stage, it will report that it failed to compile. THIS IS NORMAL! Assuming that nothing actually went wrong.
@@ -65,3 +64,8 @@ Feel free to make an issue post in the GitHub [Issues](https://github.com/TimeSt
 
 Please do not ask TeamSpen210 for help with any issues with this tool and making it work with BEEMod since this is overall just a hack and isn't something that will be actively supported by him.
 If there is an issue with this and BEEMod at all, bug me, not him.
+
+## Stuff I Still Have To Do With This Tool:
+
+* Automatically append the `Game    |gameinfo_path|../bee2` line to P2:CE's `gameinfo.txt` for the user.
+* Finish Linux support and figure out if its better to primitively check for native Linux P2:CE map compilers and fallback to Wine if not found.

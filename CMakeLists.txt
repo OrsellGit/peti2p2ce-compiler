@@ -1,28 +1,45 @@
 cmake_minimum_required(VERSION 4.0)
-project(TS_PETI C CXX)
+project(PETI_TO_P2CE C CXX)
 
 set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-# Compiling native Linux, crosscompiling on Linux for Windows, and native Windows.
-if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    message(STATUS "Compiling for Linux!")
-    message(STATUS "Adding Linux compile flags.")
+message("${CMAKE_SYSTEM_NAME}")
+message("${CMAKE_CXX_COMPILER_ID}")
+
+# Compiling on native Linux using GCC, crosscompiling on Linux for Windows using MINGW, native Windows using MSVC, and native Windows using Clang.
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    message(STATUS "Compiling for Linux using GCC!")
+    message(STATUS "Adding GCC compile flags.")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -O0 -g")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Ofast")
 elseif (MINGW)
-    # Tell MingW that to include defines for Windows and to support Windows functions
     message(STATUS "Compiling for Windows using MingW Clang!")
-    message(STATUS "Adding Windows MingW Clang compile flags and definitions.")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -static -Wall -O0 -g -Wunicode -mwindows")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -static -Wall -Ofast -Wunicode -mwindows")
-    add_compile_definitions(_WIN32=1 _WINDOWS=1)
+    message(STATUS "Adding MingW Clang compile flags.")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -static -Wall -g -Wunicode -mwindows")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -static -Wall -g -Ofast -Wunicode -mwindows")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    message(STATUS "Compiling for Windows using MSVC!")
+    message(STATUS "Adding Windows MSVC compile flags.")
+    add_compile_options(/W4 /GF /utf-8 $<$<CONFIG:Debug>:/Zi>)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    message(STATUS "Compiling for Windows using Clang or some other compiler!")
+    message(STATUS "Adding Clang compile flags.")
+    add_compile_options(/W4 /GF /utf-8 $<$<CONFIG:Debug>:/Zi>)
 endif ()
 
 include_directories(.)
 
-add_executable(TS_PETI_VBSP vbsp_main.cpp)
-add_executable(TS_PETI_VRAD vrad_main.cpp)
+set(PROJECT_SRC
+    main.cpp
+    process_man.cpp
+)
+
+add_executable(vbsp ${PROJECT_SRC})
+add_executable(vvis ${PROJECT_SRC})
+add_executable(vrad ${PROJECT_SRC})
