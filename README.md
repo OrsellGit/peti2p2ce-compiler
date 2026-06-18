@@ -33,7 +33,7 @@ Theoretically, yes. You can make an instance with P2:CE entities and turn it int
 While I was developing this tool to try and make some P2:CE features work in tandem with PeTI and BEEMod, I have not tested everything, as this is geared to projects I am working on and not anything else others are doing.
 One of those features is custom AngelScript entities. In my testing those work fine as long as the required scripts and other assets are available on P2:CE's end and your instance/UCP isn't doing anything too wacky.
 
-> [WARNING!]
+> [!WARNING]
 > There is the issue where custom AngelScript entities in instances won't be processed correctly if they don't have an entry in the "main" FGD defined in P2:CE's `gameinfo.txt`.
 > This "main" FGD normally is `p2ce.fgd`. If your AngelScript entity does not have an entry with all its KeyValues and I/O defined in the "main" FGD, it won't be properly compiled into the map, putting it at the map origin, and usually causing a leak.
 
@@ -55,7 +55,7 @@ I tried to make the process easy as possible, but there is some action on your p
 5. Go into P2:CE's `gameinfo.txt` under the `p2ce` folder and add `Game    |gameinfo_path|../bee2` as the last item in the `SearchPaths` section.
 6. That should be it! Open Portal 2 with Steam or BEEMod's application, open PeTI, and then compile a map. It should compile, copy over to P2:CE, and run it in P2:CE.
 
-> [CAUTION!]
+> [!CAUTION]
 > When PeTI finishes compiling after the VRAD stage, it will report that it failed to compile. **THIS IS NORMAL!** Assuming that nothing actually went wrong.
 > If something does go wrong, then P2:CE will not load the map and the whole console output will be in Portal 2's console.
 > Because the PeTI map has been compiled with Strata's compilers, Portal 2 will fail to load the PeTI BSP and will exit the game with an error box.
