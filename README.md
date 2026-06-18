@@ -2,13 +2,15 @@
 
 ## What is this?
 
-Three small applications I developed to be called by Portal 2 to take control of the compile process and call BEEMod's compilers followed by Portal 2: Community Edition's Strata compilers instead Portal 2's.
+A compiler tool I developed to be called by Portal 2 to take control of the compile process and call BEEMod's compilers followed by Portal 2: Community Edition's Strata compilers instead Portal 2's.
 Not only will these compile a PeTI map with the Strata compilers, it will also make sure to copy over and run the PeTI map in P2:CE.
+
+This tool is designed with mappers, modders, and puzzle designers in mind who will not be posting PeTI maps publicly to the workshop and instead using it to prototype puzzles for P2:CE related mods, maps, or other content.
 
 As of writing this only will work properly for Windows as Strata doesn't have native Linux map compilers.
 While my current code has been developed in preparation for the day that happens, you'll need to use Wine or similar in the meantime.
 
-BEEMod is recommended to be used with this since it was what it was intended for, but you technically can use these without it.
+BEEMod is recommended to be used with this since it was what it was intended for, but you technically can use these without it. If BEEMod's VBSP compiler is not found, only P2CE's compilers will be run.
 
 ## What is the benefit of this over just copying over the BSP file made by PeTI?
 
@@ -16,12 +18,13 @@ Mainly just to automate the process. Copying the file over and over again can ge
 Other reason is to be able to use and take advantage of Strata's new engine features with PeTI.
 
 However, these tools will still use PeTI's limits for compatibility with BEEMod since TeamSpen210 isn't going to update BEEMod to actively support this tool if there is issues with it and BEEMod.
-I personally made a update to BEEMod's compilers to support this tool, but TeamSpen210 and I will not be actively changing BEEMod to support this tool.
+I personally made an update to BEEMod's compilers to support this tool, but TeamSpen210 and I will not be actively changing BEEMod to support this tool.
 
 ## Does this mean that it's possible to make PeTI content for P2:CE's workshop?
 
-Short answer: No. Other short answer: Kinda. You would still need to do a few other things manually with the compiled BSP, setting up the addon, etc., which I will not be automating since this isn't what this tool is for.
-In fact, I do not recommend using this at all if you want to make PeTI content and post it to the P2:CE workshop.
+Short answer: **No**. Other short answer: *Kinda*.
+You would still need to do a few other things manually with the compiled BSP, setting up the addon, etc. Those processes I will not be automating since this isn't what this tool is for.
+**In fact, I do not recommend using this at all if you want to make PeTI content and post it to the P2:CE workshop.**
 P2:CE will one day get its own puzzle maker so if you want something more refined, then just wait for that.
 
 ## Because this is using Strata's compilers, does this mean it can use the most if not all the Strata engine's newer features?
@@ -40,27 +43,33 @@ I tried to make the process easy as possible, but there is some action on your p
 
 1. In your Portal 2's bin directory (`Portal 2/bin`), you will need to rename the current BEEMod compilers to `vbsp_bee.exe` and `vrad_bee.exe`.
    For VVIS, you will just need to rename the original Portal 2 VVIS to something else since BEEMod doesn't have a replacement for it. This tool's version will be run directly by the game.
-   If you are not using BEEMod for this, you just need to rename all the original Portal 2's compilers to something else like `vbsp_original.exe`.
+   If you are not using BEEMod, you just need to rename all the original Portal 2's compilers to have `_original` at the end of the filename.
 2. This program is not able to find your P2:CE installation for you. You will need to symlink your P2:CE's VBSP, just the VBSP, to the `Portal 2/bin` directory and rename the symlink to `vbsp_p2ce.exe`.
-   If you do not know how to symlink on Windows, you will need just need to open a Command Prompt (not Powershell) window with Administrator and use this command:
+   If you do not know how to symlink on Windows, you will need just need to open a Command Prompt (not PowerShell) window with Administrator and use this command:
    `mklink vbsp_p2ce.exe "PATH TO P2:CE VBSP EXE"`
    This will make a connection between P2:CE and Portal 2 via the symlink. The program does not run VBSP using the symlink and simply uses it to gather file paths using it.
    If you don't want to mess with terminal commands, you can also use Link Shell Extension to "Pick Link Source" the P2:CE VBSP compiler and then "Drop As... Symbolic Link" into the Portal 2 bin directory.
    <https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html#download>
-3. Once you have renamed the compilers and symlinked P2:CE's VBSP, go ahead and download the latest compilers from the [Releases](https://github.com/TimeStall-Collective/peti2p2ce-compiler/releases/latest) page on the GitHub repository.
+3. Once you have renamed the compilers and symlinked P2:CE's VBSP, go ahead and download the latest version of the compilers from the [Releases](https://github.com/TimeStall-Collective/peti2p2ce-compiler/releases/latest) page on the GitHub repository.
 4. Copy the downloaded compilers into Portal 2's bin directory. If you get any dialog that says to replace existing files, close the prompt and make sure you renamed everything as mentioned in step 1.
 5. Go into P2:CE's `gameinfo.txt` under the `p2ce` folder and add `Game    |gameinfo_path|../bee2` as the last item in the `SearchPaths` section.
 6. That should be it! Open Portal 2 with Steam or BEEMod's application, open PeTI, and then compile a map. It should compile, copy over to P2:CE, and run it in P2:CE.
 
 > [CAUTION!]
-> When PeTI finishes compiling after the VRAD stage, it will report that it failed to compile. THIS IS NORMAL! Assuming that nothing actually went wrong.
-> If something does go wrong, then P2:CE will not load the map and the whole console output will be in the game's console.
+> When PeTI finishes compiling after the VRAD stage, it will report that it failed to compile. **THIS IS NORMAL!** Assuming that nothing actually went wrong.
+> If something does go wrong, then P2:CE will not load the map and the whole console output will be in Portal 2's console.
 > Because the PeTI map has been compiled with Strata's compilers, Portal 2 will fail to load the PeTI BSP and will exit the game with an error box.
-> To prevent this from happening, this tool has to return an "error" return code back to the game so it stops in it tracks before it can load the BSP. Anything that isn't `0` is considered an error for the game, so `-1` is passed to it.
+> To prevent this from happening, this tool has to give an "error" return code back to the game so it stops in it tracks before it can load the BSP. Anything that isn't `0` is considered an error for the game, so `1` is passed to it.
+
+## Uninstalling
+
+There are multiple ways of going about it. Easiest way is to delete the compilers then rename the original BEEMod or Portal 2 compilers back to normal.
+You can also verify the game files and that should replace them with the originals. But if you did have `vbsp_original` and such, then you'll have two original compilers.
+Another way is to remove any compiler of sorts of VBSP and such, then verify the game files and rerun the BEEMod export if you still wanted BEEMod.
 
 ## What if I need help with something or something went wrong?
 
-Feel free to make an issue post in the GitHub [Issues](https://github.com/TimeStall-Collective/peti2p2ce-compiler/issues) page and I should be able to get around to it.
+Feel free to make an issue post in the GitHub [Issues](https://github.com/TimeStall-Collective/peti2p2ce-compiler/issues) page and I should be able to get around to it one day.
 
 Please do not ask TeamSpen210 for help with any issues with this tool and making it work with BEEMod since this is overall just a hack and isn't something that will be actively supported by him.
 If there is an issue with this and BEEMod at all, bug me, not him.
@@ -68,4 +77,13 @@ If there is an issue with this and BEEMod at all, bug me, not him.
 ## Stuff I Still Have To Do With This Tool:
 
 * Automatically append the `Game    |gameinfo_path|../bee2` line to P2:CE's `gameinfo.txt` for the user.
-* Finish Linux support and figure out if its better to primitively check for native Linux P2:CE map compilers and fallback to Wine if not found.
+* Finish Linux support and figure out if it's better to primitively check for native Linux P2:CE map compilers and fallback to Wine if not found.
+* Update P2:CE's FGD to support any custom AngelScript entities defined in custom FGD.
+
+## Special Thanks
+
+Thanks a ton to [TeamSpen210](https://github.com/TeamSpen210) for helping me work through all the details of dealing with BEEMod's compilers with this tool along with reviewing and accepting the BEEMod PR that makes this tool work properly with BEEMod.
+
+## Crediting
+
+It would be very appreciated that if you used this tool with your project that you give myself and the tool a shoutout. If you distribute the tool anywhere whether that be with or without the source code, the MIT license in the repository must be included with them. Thank you!
