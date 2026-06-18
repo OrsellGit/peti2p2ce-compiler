@@ -35,7 +35,7 @@ One of those features is custom AngelScript entities. In my testing those work f
 
 > [WARNING!]
 > There is the issue where custom AngelScript entities in instances won't be processed correctly if they don't have an entry in the "main" FGD defined in P2:CE's `gameinfo.txt`.
-> This "main" FGD normally is `p2ce.fgd`. If your AngelScript entity does not have an entry with all its KeyValues and I/O defined, it won't be properly compiled into the map.
+> This "main" FGD normally is `p2ce.fgd`. If your AngelScript entity does not have an entry with all its KeyValues and I/O defined in the "main" FGD, it won't be properly compiled into the map, putting it at the map origin, and usually causing a leak.
 
 ## Ok so how do I set it up?
 
