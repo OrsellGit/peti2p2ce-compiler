@@ -23,14 +23,19 @@ I personally made an update to BEEMod's compilers to support this tool, but Team
 ## Does this mean that it's possible to make PeTI content for P2:CE's workshop?
 
 Short answer: **No**. Other short answer: *Kinda*.
+
 You would still need to do a few other things manually with the compiled BSP, setting up the addon, etc. Those processes I will not be automating since this isn't what this tool is for.
+
 **In fact, I do not recommend using this at all if you want to make PeTI content and post it to the P2:CE workshop.**
+
 P2:CE will one day get its own puzzle maker so if you want something more refined, then just wait for that.
 
 ## Because this is using Strata's compilers, does this mean it can use the most if not all the Strata engine's newer features?
 
 Theoretically, yes. You can make an instance with P2:CE entities and turn it into a UCP for BEEMod to add into PeTI, but do not expect it to just work out of the box for everything.
+
 While I was developing this tool to try and make some P2:CE features work in tandem with PeTI and BEEMod, I have not tested everything, as this is geared to projects I am working on and not anything else others are doing.
+
 One of those features is custom AngelScript entities. In my testing those work fine as long as the required scripts and other assets are available on P2:CE's end and your instance/UCP isn't doing anything too wacky.
 
 > [!WARNING]
@@ -64,7 +69,9 @@ I tried to make the process easy as possible, but there is some action on your p
 ## Uninstalling
 
 There are multiple ways of going about it. Easiest way is to delete the compilers then rename the original BEEMod or Portal 2 compilers back to normal.
+
 You can also verify the game files and that should replace them with the originals. But if you did have `vbsp_original` and such, then you'll have two original compilers.
+
 Another way is to remove any compiler of sorts of VBSP and such, then verify the game files and rerun the BEEMod export if you still wanted BEEMod.
 
 ## What if I need help with something or something went wrong?
