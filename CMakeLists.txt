@@ -9,9 +9,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-message("${CMAKE_SYSTEM_NAME}")
-message("${CMAKE_CXX_COMPILER_ID}")
-
 # Compiling on native Linux using GCC, crosscompiling on Linux for Windows using MINGW, native Windows using MSVC, and native Windows using Clang.
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     message(STATUS "Compiling for Linux using GCC!")
@@ -43,3 +40,18 @@ set(PROJECT_SRC
 add_executable(vbsp ${PROJECT_SRC})
 add_executable(vvis ${PROJECT_SRC})
 add_executable(vrad ${PROJECT_SRC})
+
+# Need to use this Python script to append the PyInstaller bytes at the end of the EXE so whenever BEEMod exports it doesnt replace these compilers.
+find_package(Python3 REQUIRED)
+
+add_custom_command(
+        TARGET vbsp POST_BUILD
+        COMMAND ${Python3_EXECUTABLE}
+        ${CMAKE_SOURCE_DIR}/append_bytes.py "$<TARGET_FILE:vbsp>"
+)
+
+add_custom_command(
+        TARGET vrad POST_BUILD
+        COMMAND ${Python3_EXECUTABLE}
+        ${CMAKE_SOURCE_DIR}/append_bytes.py "$<TARGET_FILE:vrad>"
+)
