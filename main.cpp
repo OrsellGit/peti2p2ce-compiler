@@ -8,7 +8,7 @@
 */
 
 // TODO: Automatically append the `Game    |gameinfo_path|../bee2` line to P2:CE's `gameinfo.txt` for the user.
-// TODO: Finish Linux support and figure out if it's better to primitively check for native Linux P2:CE map compilers and fallback to Wine if not found.
+// TODO: Finish Linux support and make native Linux P2:CE map compilers work with the compiler.
 // TODO: Detect and properly load cooperative mode PeTI maps.
 
 #include <filesystem>
