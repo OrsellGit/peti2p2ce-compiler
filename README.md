@@ -69,8 +69,8 @@ I tried to make the process easy as possible, but there is some action on your p
    For VVIS, you will just need to rename the original Portal 2 VVIS to something else since BEEMod doesn't have a replacement for it. This tool's version will be run directly by the game.
    If you are not using BEEMod, you just need to rename all the original Portal 2's compilers to have `_original` at the end of the filename.
 2. This program is not able to find your P2:CE installation for you. You will need to symlink your P2:CE's VBSP, just the VBSP, to the `Portal 2/bin` directory and rename the symlink to `vbsp_p2ce.exe`.
-   If you do not know how to symlink on Windows, you will need just need to open a Command Prompt (not PowerShell) window with Administrator and use this command:
-   `mklink vbsp_p2ce.exe "PATH TO P2:CE VBSP EXE"`
+   If you do not know how to symlink on Windows, you will need just need to open a Command Prompt (not PowerShell) window with Administrator **inside the `Portal 2/bin` directory** and use this command:
+   `mklink vbsp_p2ce.exe "PATH TO P2:CE VBSP"`
    This will make a connection between P2:CE and Portal 2 via the symlink. The program does not run VBSP using the symlink and simply uses it to gather file paths using it.
    If you don't want to mess with terminal commands, you can also use Link Shell Extension to "Pick Link Source" the P2:CE VBSP compiler and then "Drop As... Symbolic Link" into the Portal 2 bin directory.
    <https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html#download>
