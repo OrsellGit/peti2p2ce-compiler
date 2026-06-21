@@ -1,6 +1,8 @@
 # PeTI To P2:CE Compilers
 
-## What is this?
+## General Info
+
+### What is this?
 
 A compiler tool I developed to be called by Portal 2 to take control of the compile process and call BEEMod's compilers followed by Portal 2: Community Edition's Strata compilers instead Portal 2's.
 Not only will these compile a PeTI map with the Strata compilers, it will also make sure to copy over and run the PeTI map in P2:CE.
@@ -12,7 +14,7 @@ While my current code has been developed in preparation for the day that happens
 
 BEEMod is recommended to be used with this since it was what it was intended for, but you technically can use these without it. If BEEMod's VBSP compiler is not found, only P2CE's compilers will be run.
 
-## What is the benefit of this over just copying over the BSP file made by PeTI?
+### What is the benefit of this over just copying over the BSP file made by PeTI?
 
 Mainly just to automate the process. Copying the file over and over again can get annoying for some people, and so automating it and running the game for you can be quite helpful.
 Other reason is to be able to use and take advantage of Strata's new engine features with PeTI.
@@ -20,7 +22,7 @@ Other reason is to be able to use and take advantage of Strata's new engine feat
 However, these tools will still use PeTI's limits for compatibility with BEEMod since TeamSpen210 isn't going to update BEEMod to actively support this tool if there is issues with it and BEEMod.
 I personally made an update to BEEMod's compilers to support this tool, but TeamSpen210 and I will not be actively changing BEEMod to support this tool.
 
-## Does this mean that it's possible to make PeTI content for P2:CE's workshop?
+### Does this mean that it's possible to make PeTI content for P2:CE's workshop?
 
 Short answer: **No**. Other short answer: *Kinda*.
 
@@ -30,23 +32,23 @@ You would still need to do a few other things manually with the compiled BSP, se
 
 P2:CE will one day get its own puzzle maker so if you want something more refined, then just wait for that.
 
-## Because this is using Strata's compilers, does this mean it can use the most if not all the Strata engine's newer features?
+### Because this is using Strata's compilers, does this mean it can use the most if not all the Strata engine's newer features?
 
 Theoretically, yes. You can make an instance with P2:CE entities and turn it into a UCP for BEEMod to add into PeTI, but do not expect it to just work out of the box for everything.
 
-While I was developing this tool to try and make some P2:CE features work in tandem with PeTI and BEEMod, I have not tested everything, as this is geared to projects I am working on and not anything else others are doing.
+While I was developing this tool to try and make some P2:CE features work in tandem with PeTI and BEEMod, I have not tested everything, as this is geared to projects I am working on and not everything else others are doing.
 
 One of those features is custom AngelScript entities. In my testing those work fine as long as the required scripts and other assets are available on P2:CE's end and your instance/UCP isn't doing anything too wacky.
 
-> [!WARNING]
-> There is the issue where custom AngelScript entities in instances won't be processed correctly if they don't have an entry in the "main" FGD defined in P2:CE's `gameinfo.txt`.
-> This "main" FGD normally is `p2ce.fgd`. If your AngelScript entity does not have an entry with all its KeyValues and I/O defined in the "main" FGD, it won't be properly compiled into the map, putting it at the map origin, and usually causing a leak.
+This compiler has special setup needed if you want custom AngelScript entities to work correctly. Please read [Custom FGDs For AngelScript Entities](#custom-fgds-for-angelscript-entities) for more info after setting up this compiler below.
 
-## Ok so how do I set it up?
+## Setup
 
 I tried to make the process easy as possible, but there is some action on your part to make sure it works.
 
-1. In your Portal 2's bin directory (`Portal 2/bin`), you will need to rename the current BEEMod compilers to `vbsp_bee.exe` and `vrad_bee.exe`.
+1. Due to BEEMod not getting updated yet with the compiler changes needed to make this work, you will need to download the updated BEEMod compilers from the [Releases](https://github.com/TimeStall-Collective/peti2p2ce-compiler/releases/latest) page.
+   In order to not need to redownload/recopy the PeTI To P2:CE compilers over the existing Portal 2 compilers everytime BEEMod exports, it is recommended that you replace the current BEEMod compilers in your BEEMod's application `bin/compiler` folder with the ones from the Releases page.
+   If you wish to keep the original BEEMod compilers, rename the current VBSP and VRAD compilers there to something else that doesn't have `_original` or `_bee` in its name. These will always get copied to Portal 2 and you need to make sure they wont interfere with the game.
    For VVIS, you will just need to rename the original Portal 2 VVIS to something else since BEEMod doesn't have a replacement for it. This tool's version will be run directly by the game.
    If you are not using BEEMod, you just need to rename all the original Portal 2's compilers to have `_original` at the end of the filename.
 2. This program is not able to find your P2:CE installation for you. You will need to symlink your P2:CE's VBSP, just the VBSP, to the `Portal 2/bin` directory and rename the symlink to `vbsp_p2ce.exe`.
@@ -61,12 +63,16 @@ I tried to make the process easy as possible, but there is some action on your p
 6. That should be it! Open Portal 2 with Steam or BEEMod's application, open PeTI, and then compile a map. It should compile, copy over to P2:CE, and run it in P2:CE.
 
 > [!CAUTION]
-> When PeTI finishes compiling after the VRAD stage, it will report that it failed to compile. **THIS IS NORMAL!** Assuming that nothing actually went wrong.
-> If something does go wrong, then P2:CE will not load the map and the whole console output will be in Portal 2's console.
+> 
+> When PeTI finishes compiling after the VRAD stage, it will report that it failed to compile. ***THIS IS NORMAL!*** Assuming that nothing actually went wrong.
+> 
+> If something does go wrong, a popup will appear (on Windows) and P2:CE will not launch or be called to load the map. The whole console output will be in Portal 2's console for you to check for errors.
+> 
 > Because the PeTI map has been compiled with Strata's compilers, Portal 2 will fail to load the PeTI BSP and will exit the game with an error box.
+> 
 > To prevent this from happening, this tool has to give an "error" return code back to the game so it stops in it tracks before it can load the BSP. Anything that isn't `0` is considered an error for the game, so `1` is passed to it.
 
-## Uninstalling
+### Uninstalling
 
 There are multiple ways of going about it. Easiest way is to delete the compilers then rename the original BEEMod or Portal 2 compilers back to normal.
 
@@ -74,23 +80,61 @@ You can also verify the game files and that should replace them with the origina
 
 Another way is to remove any compiler of sorts of VBSP and such, then verify the game files and rerun the BEEMod export if you still wanted BEEMod.
 
-## What if I need help with something or something went wrong?
+### Custom FGDs For AngelScript Entities
+
+Due to how Valve made instances in VBSP work, and in turn how Strata's VBSP works, instances and their entities inside them all must have an entry in the "main" FGD of the game. This FGD is defined in the `gameinfo.txt`, and for P2:CE's case it is the `p2ce.fgd`.
+
+All standard entities both in Portal 2 and P2:CE are already in here so you don't have to worry about them, but you will for custom AngelScript entities.
+
+For custom AngelScript entities to work that are in BEEMod UCPs, which are instances, the custom AngelScript entity must be defined in the P2:CE's FGD.
+
+While putting them into `p2ce.fgd` works, it is annoying if the game files are verified or updated and the `p2ce.fgd` is reset or updated wiping your entity entries.
+
+This compiler has been programmed to support having separate FGDs by parsing FGD files from a `custom_fgds` folder.  This folder is not made by default and is made by the user in the `p2ce` directory.
+
+Once made, FGDs can be placed or symlinked into this folder which will be used during compile to make AngelScript entities work. Make sure to check the P2:CE console for any AngelScript errors if something doesn't run correctly.
+
+## Other Information
+
+### Cooperative Partner PeTI Map
+
+As of writing, the program can't detect if you are making a cooperative map in PeTI. Once P2:CE loads the map, you will need to exit back to the menu and put in the console:
+```
+   sv_portal_gamemode_override coop
+   ss_map preview
+```
+
+This should load the PeTI map properly and allow you to play the map in splitscreen coop. Future compiles will still allow you to play the map properly in splitscreen after each map change.
+
+In order to switch between the cooperative robots in the map, run `in_forceuser 1` to switch to PBody. I recommend binding this key using `BindToggle <key> in_forceuser`.
+
+### What if I need help with something or something went wrong?
 
 Feel free to make an issue post in the GitHub [Issues](https://github.com/TimeStall-Collective/peti2p2ce-compiler/issues) page and I should be able to get around to it one day.
 
-Please do not ask TeamSpen210 for help with any issues with this tool and making it work with BEEMod since this is overall just a hack and isn't something that will be actively supported by him.
+Please **do not** ask TeamSpen210 for help with any issues with this tool and making it work with BEEMod since this is overall just a hack and isn't something that will be actively supported by him.
 If there is an issue with this and BEEMod at all, bug me, not him.
 
-## Stuff I Still Have To Do With This Tool:
+### Why Does It Still Say Portal 2 Is Running When P2:CE Is Running?
+
+This is a side effect of running P2:CE from Portal 2 which causes P2:CE to run off of Portal 2's AppID according to Steam. There isn't anything inherently bad that will happen in P2:CE from this so far as I can tell.
+
+One thing that has happened is that it won't load any keybinds for P2:CE if you got custom keybinds, but appart from that nothing too bad.
+
+If anything too major comes up that does have a big impact, I'll take another look into making sure it's run as its own proper process.
+
+### Stuff I Still Have To Do With This Tool:
 
 * Automatically append the `Game    |gameinfo_path|../bee2` line to P2:CE's `gameinfo.txt` for the user.
 * Finish Linux support and figure out if it's better to primitively check for native Linux P2:CE map compilers and fallback to Wine if not found.
-* Update P2:CE's FGD to support any custom AngelScript entities defined in custom FGD.
+* Detect and properly load cooperative mode PeTI maps.
 
-## Special Thanks
+## Credits
+
+### Special Thanks
 
 Thanks a ton to [TeamSpen210](https://github.com/TeamSpen210) for helping me work through all the details of dealing with BEEMod's compilers with this tool along with reviewing and accepting the BEEMod PR that makes this tool work properly with BEEMod.
 
-## Crediting
+### Crediting
 
 It would be very appreciated that if you used this tool with your project that you give myself and the tool a shoutout. If you distribute the tool anywhere whether that be with or without the source code, the MIT license in the repository must be included with them. Thank you!
