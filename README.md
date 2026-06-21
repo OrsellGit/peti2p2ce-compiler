@@ -9,8 +9,8 @@ Not only will these compile a PeTI map with the Strata compilers, it will also m
 
 This tool is designed with mappers, modders, and puzzle designers in mind who will not be posting PeTI maps publicly to the workshop and instead using it to prototype puzzles for P2:CE related mods, maps, or other content.
 
-As of writing this only will work properly for Windows as Strata doesn't have native Linux map compilers.
-While my current code has been developed in preparation for the day that happens, you'll need to use Wine or similar in the meantime.
+As of writing this only will work properly for Windows as I haven't had the time to properly work on this for Linux.
+While my current code has been developed to some extent with Linux support, you'll need to use Wine or similar in the meantime.
 
 BEEMod is recommended to be used with this since it was what it was intended for, but you technically can use these without it. If BEEMod's VBSP compiler is not found, only P2CE's compilers will be run.
 
@@ -110,31 +110,31 @@ In order to switch between the cooperative robots in the map, run `in_forceuser 
 
 ### What if I need help with something or something went wrong?
 
-Feel free to make an issue post in the GitHub [Issues](https://github.com/TimeStall-Collective/peti2p2ce-compiler/issues) page and I should be able to get around to it one day.
+Feel free to make an issue post on the GitHub [Issues](https://github.com/TimeStall-Collective/peti2p2ce-compiler/issues) page, and I should be able to get around to it one day.
 
 Please **do not** ask TeamSpen210 for help with any issues with this tool and making it work with BEEMod since this is overall just a hack and isn't something that will be actively supported by him.
 If there is an issue with this and BEEMod at all, bug me, not him.
 
 ### Why Does It Still Say Portal 2 Is Running When P2:CE Is Running?
 
-This is a side effect of running P2:CE from Portal 2 which causes P2:CE to run off of Portal 2's AppID according to Steam. There isn't anything inherently bad that will happen in P2:CE from this so far as I can tell.
+This is a side effect of running P2:CE from Portal 2, which causes P2:CE to run off of Portal 2's AppID according to Steam. There isn't anything inherently bad that will happen in P2:CE from this so far as I can tell.
 
-One thing that has happened is that it won't load any keybinds for P2:CE if you got custom keybinds, but appart from that nothing too bad.
+One thing that has happened is that it won't load any keybinds for P2:CE if you have custom keybinds, but apart from that, nothing too bad.
 
-If anything too major comes up that does have a big impact, I'll take another look into making sure it's run as its own proper process.
+If anything too major comes up that does have a big impact, I'll take another look at making sure it's run as its own proper process.
 
 ### Stuff I Still Have To Do With This Tool:
 
 * Automatically append the `Game    |gameinfo_path|../bee2` line to P2:CE's `gameinfo.txt` for the user.
-* Finish Linux support and figure out if it's better to primitively check for native Linux P2:CE map compilers and fallback to Wine if not found.
+* Finish Linux support and make native Linux P2:CE map compilers work with the compiler.
 * Detect and properly load cooperative mode PeTI maps.
 
 ## Credits
 
 ### Special Thanks
 
-Thanks a ton to [TeamSpen210](https://github.com/TeamSpen210) for helping me work through all the details of dealing with BEEMod's compilers with this tool along with reviewing and accepting the BEEMod PR that makes this tool work properly with BEEMod.
+Thanks a ton to [TeamSpen210](https://github.com/TeamSpen210) for helping me work through all the details of dealing with BEEMod's compilers with this tool, along with reviewing and accepting the BEEMod PR that makes this tool work properly with BEEMod.
 
 ### Crediting
 
-It would be very appreciated that if you used this tool with your project that you give myself and the tool a shoutout. If you distribute the tool anywhere whether that be with or without the source code, the MIT license in the repository must be included with them. Thank you!
+It would be greatly appreciated if you used this tool for your project and gave the tool a shoutout. If you distribute the tool anywhere, whether with or without the source code, the MIT license in the repository must be included with it. Thank you!
