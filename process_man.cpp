@@ -220,13 +220,16 @@ bool Process::Start( const std::string& cmd, const std::filesystem::path& execDi
     PROCESS_INFORMATION pi{};
 
     std::wstring cmdFinal = ConvertStringToWString(cmd);
+    DWORD flags = CREATE_NO_WINDOW;
+    if (detached)
+        flags = DETACHED_PROCESS;
     const bool success = CreateProcessW(
         nullptr,
         cmdFinal.data(),
         nullptr,
         nullptr,
         !detached,
-        CREATE_NO_WINDOW,
+        flags,
         nullptr,
         execDir.empty() ? nullptr : execDir.c_str(),
         &si,
