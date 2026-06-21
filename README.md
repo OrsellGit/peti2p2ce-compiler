@@ -1,5 +1,22 @@
 # PeTI To P2:CE Compilers
 
+* [General Info](#general-info)
+  * [What is this?](#what-is-this)
+  * [What is the benefit of this over just copying over the BSP file made by PeTI?](#what-is-the-benefit-of-this-over-just-copying-over-the-bsp-file-made-by-peti)
+  * [Does this mean that it's possible to make PeTI content for P2:CE's workshop?](#does-this-mean-that-its-possible-to-make-peti-content-for-p2ces-workshop)
+  * [Because this is using Strata's compilers, does this mean it can use the most if not all the Strata engine's newer features?](#because-this-is-using-stratas-compilers-does-this-mean-it-can-use-the-most-if-not-all-the-strata-engines-newer-features)
+* [Setup](#setup)
+  * [Uninstalling](#uninstalling)
+  * [Custom FGDs For AngelScript Entities](#custom-fgds-for-angelscript-entities)
+* [Other Information](#other-information)
+  * [Cooperative Partner PeTI Map](#cooperative-partner-peti-map)
+  * [What if I need help with something or something went wrong?](#what-if-i-need-help-with-something-or-something-went-wrong)
+  * [Why Does It Still Say Portal 2 Is Running When P2:CE Is Running?](#why-does-it-still-say-portal-2-is-running-when-p2ce-is-running)
+  * [Stuff I Still Have To Do With This Tool](#stuff-i-still-have-to-do-with-this-tool)
+* [Credits](#credits)
+  * [Special Thanks](#special-thanks)
+  * [Crediting](#crediting) PLEASE READ IF YOU USE THIS TOOL!
+
 ## General Info
 
 ### What is this?
@@ -123,7 +140,7 @@ One thing that has happened is that it won't load any keybinds for P2:CE if you 
 
 If anything too major comes up that does have a big impact, I'll take another look at making sure it's run as its own proper process.
 
-### Stuff I Still Have To Do With This Tool:
+### Stuff I Still Have To Do With This Tool
 
 * Automatically append the `Game    |gameinfo_path|../bee2` line to P2:CE's `gameinfo.txt` for the user.
 * Finish Linux support and make native Linux P2:CE map compilers work with the compiler.
