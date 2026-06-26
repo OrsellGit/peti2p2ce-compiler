@@ -635,7 +635,8 @@ int main( const int argc, char* argv[] )
             return 1;
         }
 
-        Logger::Log("\n\n---------------------\nTHE PETI TO P2:CE COMPILER HAS COMPLETED SUCCESSFULLY!!!\n---------------------\n\n");
+        // TODO: Can't assume it is completed successfully here or it did in fact go through the whole process since VRAD could be the only one that is run or BEEMod error server is being run.
+        //Logger::Log("\n\n---------------------\nTHE PETI TO P2:CE COMPILER HAS COMPLETED SUCCESSFULLY!!!\n---------------------\n\n");
 
         Logger::ShutdownLogging();
 
