@@ -510,7 +510,6 @@ int main( const int argc, char* argv[] )
                 if (std::filesystem::exists(p2ceGameDir / "p2ce_original.fgd"))
                 {
                     Logger::DevLog("Cleaning up FGDs before stopping compile.");
-                    std::filesystem::remove(p2ceGameDir / "p2ce.fgd");
                     std::filesystem::rename(p2ceGameDir / "p2ce_original.fgd", p2ceGameDir / "p2ce.fgd");
                 }
 
@@ -567,7 +566,6 @@ int main( const int argc, char* argv[] )
             if (std::filesystem::exists(p2ceGameDir / "p2ce_original.fgd"))
             {
                 Logger::DevLog("[main] Cleaning up FGDs before stopping compile.");
-                std::filesystem::remove(p2ceGameDir / "p2ce.fgd");
                 std::filesystem::rename(p2ceGameDir / "p2ce_original.fgd", p2ceGameDir / "p2ce.fgd");
             }
 
@@ -578,7 +576,6 @@ int main( const int argc, char* argv[] )
         if (std::filesystem::exists(p2ceGameDir / "p2ce_original.fgd"))
         {
             Logger::DevLog("[main] Cleaning up FGDs.");
-            std::filesystem::remove(p2ceGameDir / "p2ce.fgd");
             std::filesystem::rename(p2ceGameDir / "p2ce_original.fgd", p2ceGameDir / "p2ce.fgd");
         }
 
