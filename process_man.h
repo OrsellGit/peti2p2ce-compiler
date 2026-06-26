@@ -6,8 +6,8 @@
 * @license Distributed under the MIT license.
 */
 
-#ifndef PROCESS_H
-#define PROCESS_H
+#ifndef PROCESSMAN_H
+#define PROCESSMAN_H
 
 #pragma once
 
@@ -65,4 +65,4 @@ private:
 #endif
 };
 
-#endif //PROCESS_H
+#endif //PROCESSMAN_H

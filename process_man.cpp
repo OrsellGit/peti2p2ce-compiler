@@ -6,7 +6,6 @@
 * @license Distributed under the MIT license.
 */
 
-// #include <assert.h>
 #include <cassert>
 #include <filesystem>
 #include <iostream>
@@ -21,25 +20,8 @@
 #include <sys/wait.h>
 #endif
 
+#include "logger.h"
 #include "process_man.h"
-
-static void Log( const std::string& text, const bool error = false)
-{
-    if (error)
-        std::cout << "[PETI-TO-P2CE] [ERROR] " << text << std::endl;
-    else
-        std::cout << "[PETI-TO-P2CE] " << text << std::endl;
-}
-
-static void DevLog( const std::string& text, const bool error = false )
-{
-#if _DEBUG
-    Log("[DEV] " + text, error);
-#else
-    (void)text;
-    (void)error;
-#endif
-}
 
 #ifdef _WIN32
 
@@ -157,7 +139,7 @@ void Process::Terminate()
  */
 bool Process::Start( const std::string& cmd, const std::filesystem::path& execDir, OutputCallback callback_, const bool detached )
 {
-    DevLog(std::format("Starting process with parameters:\ncmd: {}\nexecDir: {}\ncallback: {}\ndetached: {}", cmd, execDir.string(), callback_ ? "Has Callback" : "No Callback", detached));
+    Logger::DevLog(std::format("Starting process with parameters:\ncmd: {}\nexecDir: {}\ncallback: {}\ndetached: {}", cmd, execDir.string(), callback_ ? "Has Callback" : "No Callback", detached));
 
     callback = std::move(callback_);
 
@@ -172,13 +154,13 @@ bool Process::Start( const std::string& cmd, const std::filesystem::path& execDi
 
     if (!CreatePipe(&stdoutRead_, &stdoutWrite_, &sa, 0))
     {
-        Log(std::format("[Process::Start - Windows] CreatePipe for stdout failed! Error: {}", GetLastError()), true);
+        Logger::Log(std::format("[Process::Start - Windows] CreatePipe for stdout failed! Error: {}", GetLastError()), true);
         return false;
     }
 
     if (!CreatePipe(&stderrRead_, &stderrWrite_, &sa, 0))
     {
-        Log(std::format("[Process::Start - Windows] CreatePipe for stderr failed! Error: {}", GetLastError()), true);
+        Logger::Log(std::format("[Process::Start - Windows] CreatePipe for stderr failed! Error: {}", GetLastError()), true);
 
         // Close the stdout handles since those would have successfully been made before getting here.
         CloseHandle(stdoutRead_);
@@ -189,7 +171,7 @@ bool Process::Start( const std::string& cmd, const std::filesystem::path& execDi
     // Make sure children are able to get an inherited handle to the stdout and stderr handles.
     if (!SetHandleInformation(stdoutRead_, HANDLE_FLAG_INHERIT, 0))
     {
-        Log(std::format("[Process::Start - Windows] SetHandleInformation failed! Error: {}", GetLastError()), true);
+        Logger::Log(std::format("[Process::Start - Windows] SetHandleInformation failed! Error: {}", GetLastError()), true);
 
         CloseHandle(stdoutWrite_);
         CloseHandle(stderrWrite_);
@@ -200,7 +182,7 @@ bool Process::Start( const std::string& cmd, const std::filesystem::path& execDi
     }
     if (!SetHandleInformation(stderrRead_, HANDLE_FLAG_INHERIT, 0))
     {
-        Log(std::format("[Process::Start - Windows] SetHandleInformation failed! Error: {}", GetLastError()), true);
+        Logger::Log(std::format("[Process::Start - Windows] SetHandleInformation failed! Error: {}", GetLastError()), true);
 
         CloseHandle(stdoutWrite_);
         CloseHandle(stderrWrite_);
@@ -238,7 +220,7 @@ bool Process::Start( const std::string& cmd, const std::filesystem::path& execDi
 
     if (!success)
     {
-        Log(std::format("[Process::Start - Windows] CreateProcess failed! Error: {}", GetLastError()), true);
+        Logger::Log(std::format("[Process::Start - Windows] CreateProcess failed! Error: {}", GetLastError()), true);
 
         CloseHandle(stdoutWrite_);
         CloseHandle(stderrWrite_);
@@ -282,13 +264,13 @@ bool Process::Start( const std::vector<std::string>& args, const std::filesystem
 
     if (pipe(outPipe) != 0)
     {
-        Log(std::format("[Process::Start - Linux] Failed to create pipe! Error: {}", std::strerror(errno), true);
+        Logger::Log(std::format("[Process::Start - Linux] Failed to create pipe! Error: {}", std::strerror(errno), true);
         return false;
     }
 
     if (pipe(errPipe) != 0)
     {
-        Log(std::format("[Process::Start - Linux] Failed to create pipe! Error: {}", std::strerror(errno), true);
+        Logger::Log(std::format("[Process::Start - Linux] Failed to create pipe! Error: {}", std::strerror(errno), true);
 
         // Close the stdout pipes since those would have successfully been made before getting here.
         close(outPipe[0]);
@@ -327,7 +309,7 @@ bool Process::Start( const std::vector<std::string>& args, const std::filesystem
     }
     else if (this->pid < 0)
     {
-        Log(std::format("[Process::Start - Linux] Failed to fork! Error: {}", std::strerror(errno), true);
+        Logger::Log(std::format("[Process::Start - Linux] Failed to fork! Error: {}", std::strerror(errno), true);
 
         close(outPipe[0]);
         close(outPipe[1]);
@@ -369,24 +351,24 @@ unsigned long Process::Wait( const bool fullyWait )
     DWORD exitCode = 0;
     if (this->childProcessHandle == INVALID_HANDLE_VALUE)
     {
-        Log("[Process::Wait - Windows] Invalid child process handle!");
+        Logger::Log("[Process::Wait - Windows] Invalid child process handle!");
         return 1;
     }
 
     // No need to wait for processes don't need to be waited on or have timed out. This more specifically applies to P2:CE.
     if (const DWORD returnCode = WaitForSingleObject(this->childProcessHandle, fullyWait ? INFINITE : 0); returnCode == WAIT_OBJECT_0 || returnCode == WAIT_TIMEOUT)
     {
-        DevLog(std::format("[Process::Wait - Windows] WaitForSingleObject returnCode: {}", returnCode));
+        Logger::DevLog(std::format("[Process::Wait - Windows] WaitForSingleObject returnCode: {}", returnCode));
         GetExitCodeProcess(this->childProcessHandle, &exitCode);
         if (exitCode == STILL_ACTIVE && fullyWait)
         {
-            Log("[Process::Wait - Windows] Child process is still running even when fullyWait is true, something has gone wrong!", true);
+            Logger::Log("[Process::Wait - Windows] Child process is still running even when fullyWait is true, something has gone wrong!", true);
             return 1;
         }
     }
     else
     {
-        Log(std::format("[Process::Wait - Windows] WaitForSingleObject failed! returnCode: {} Error: {}", returnCode, GetLastError()), true);
+        Logger::Log(std::format("[Process::Wait - Windows] WaitForSingleObject failed! returnCode: {} Error: {}", returnCode, GetLastError()), true);
 
         CloseHandle(this->childProcessHandle);
         CloseHandle(this->stdoutRead);
