@@ -63,3 +63,6 @@ cmake-build-*
 
 # BEEMod
 bee2
+
+# Log files
+*.log

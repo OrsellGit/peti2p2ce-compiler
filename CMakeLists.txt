@@ -35,6 +35,7 @@ include_directories(.)
 set(PROJECT_SRC
     main.cpp
     process_man.cpp
+    logger.cpp
 )
 
 add_executable(vbsp ${PROJECT_SRC})
